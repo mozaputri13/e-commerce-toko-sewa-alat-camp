@@ -17,6 +17,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#katalog">Equipment</a></li>
                 <li><a href="#ulasan">Reviews</a></li>
+                <li><a href="admin-login.html" style="color: #6bbf59; font-weight: bold;">Admin Portal</a></li>
             </ul>
             <div class="cart-trigger" onclick="toggleCart()">
                 <span class="cart-icon">🛒</span>
@@ -42,95 +43,10 @@
             <div class="line"></div>
         </div>
 
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="badge">Best Seller</div>
-                <div class="img-box" style="background-image: url('tenda\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Tenda Arei 4 Capacity</h3>
-                    <p class="price">Rp 50.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Tenda Arei 4 Capacity', 50000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('fly\ sheet\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Fly Sheet</h3>
-                    <p class="price">Rp 10.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Fly Sheet', 10000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('kursi\ 1.jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Portable Chair</h3>
-                    <p class="price">Rp 10.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Kursi 1', 10000)">Tambah Keranjang</button>
-                 </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('kursi\ meja\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Kursi Set C</h3>
-                    <p class="price">Rp 25.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Kursi Set C ', 25000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('meja\ .lpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Port. Table</h3>
-                    <p class="price">Rp 15.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Port. Table ', 15000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('4\ kursi\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Kursi Set A</h3>
-                    <p class="price">Rp 50.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Kursi Set A', 50000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('gas\ portable\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Portables Gas</h3>
-                    <p class="price">Rp15.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Gas Portable ', 15000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('tikar\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Tikar</h3>
-                    <p class="price">Rp10.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Tikar ', 10000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('cooking\ set\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Cooking Set</h3>
-                    <p class="price">Rp35.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Cooking Set ', 35000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('hammock\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Hammock</h3>
-                    <p class="price">Rp10.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Hammock ', 10000)">Tambah Keranjang</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="img-box" style="background-image: url('lampu\ .jpg.jpeg');"></div>
-                <div class="product-detail">
-                    <h3>Emergancy Lamp</h3>
-                    <p class="price">Rp10.000 <span>/ day</span></p>
-                    <button class="btn-add" onclick="addToCart('Emergancy lamp ', 10000)">Tambah Keranjang</button>
-                </div>
+        <div class="product-grid" id="product-grid">
+            <!-- Dinamis diisi dari Supabase -->
+            <div style="grid-column: 1/-1; text-align: center; color: #718096; padding: 40px 0;">
+                <p>Memuat katalog alat camp...</p>
             </div>
         </div>
     </section>
@@ -172,9 +88,13 @@
     </section>
 
     <footer>
-        <p>&copy; 2024 SewaSewaan AlatCamp Jampang. All Rights Reserved.</p>
+        <p>&copy; 2024 SewaSewaan AlatCamp Jampang. All Rights Reserved. | <a href="admin-login.html" style="color: #6bbf59; text-decoration: none; font-weight: bold;">Portal Admin</a></p>
     </footer>
 
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Config File -->
+    <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
