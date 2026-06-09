@@ -1,5 +1,5 @@
 // ==========================================
-// SCRIPT.JS - LOGIKA UTAMA KATALOG & KERANJANG
+// SCRIPT.JS - LOGIKA UTAMA KATALOG, KERANJANG, & ULASAN
 // ==========================================
 
 let cart = [];
@@ -94,19 +94,12 @@ async function fetchCatalog() {
     }
 }
 
-// Jalankan fetchCatalog saat halaman utama siap
-document.addEventListener('DOMContentLoaded', () => {
-    fetchCatalog();
-});
-
 // ==========================================
 // 2. LOGIKA KERANJANG (CART FUNCTIONS)
 // ==========================================
 function addToCart(name, price) {
     cart.push({ name, price });
     updateUI();
-    
-    // Feedback visual ketika berhasil ditambahkan
     alert(`"${name}" berhasil ditambahkan ke keranjang.`);
 }
 
@@ -135,6 +128,7 @@ function toggleCart() {
     modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
 }
 
+// Checkout WhatsApp
 function checkoutWA() {
     if (cart.length === 0) return alert("Pilih alat dulu!");
     let text = "Halo SewaSewaan Jampang, saya ingin sewa:%0A";
@@ -143,17 +137,76 @@ function checkoutWA() {
 }
 
 // ==========================================
-// 3. ULASAN CUSTOMER (REVIEW FUNCTIONS)
+// 3. ULASAN CUSTOMER - TERKONEKSI SUPABASE (PERBAIKAN)
 // ==========================================
-function addReview() {
-    const name = document.getElementById('rev-name').value;
-    const text = document.getElementById('rev-text').value;
-    if(name && text) {
-        const div = document.createElement('div');
-        div.className = 'review-item';
-        div.innerHTML = `<p>"${text}"</p><h5>— ${name}</h5>`;
-        document.getElementById('review-list').appendChild(div);
-        document.getElementById('rev-name').value = '';
-        document.getElementById('rev-text').value = '';
+
+// Fungsi menampilkan ulasan dari Supabase
+async function fetchReviews() {
+    const list = document.getElementById('review-list');
+    if (!list) return;
+
+    try {
+        // Ambil ulasan terbaru dari tabel 'ulasan'
+        const { data, error } = await supabaseClient
+            .from('ulasan')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Jika ada data, pasang ke HTML
+        if (data && data.length > 0) {
+            list.innerHTML = data.map(item => `
+                <div class="review-item">
+                    <p>"${item.komentar}"</p>
+                    <h5>— ${item.nama}</h5>
+                </div>
+            `).join('');
+        } else {
+            list.innerHTML = '<p style="text-align:center; color:#718096;">Belum ada ulasan. Jadilah yang pertama!</p>';
+        }
+    } catch (err) {
+        console.error("Gagal mengambil data ulasan:", err);
     }
 }
+
+// Fungsi mengirim ulasan baru ke Supabase
+async function addReview() {
+    const nameInput = document.getElementById('rev-name');
+    const textInput = document.getElementById('rev-text');
+    
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+
+    if (!name || !text) {
+        alert("Nama dan ulasan tidak boleh kosong ya!");
+        return;
+    }
+
+    try {
+        // Memasukkan data ke tabel ulasan di Supabase
+        const { error } = await supabaseClient
+            .from('ulasan')
+            .insert([{ nama: name, komentar: text }]);
+
+        if (error) throw error;
+
+        // Reset form input setelah sukses
+        nameInput.value = '';
+        textInput.value = '';
+
+        // Muat ulang daftar ulasan secara instan
+        await fetchReviews();
+        alert("Terima kasih! Ulasan Anda berhasil disimpan.");
+
+    } catch (err) {
+        console.error("Gagal menyimpan ulasan:", err);
+        alert("Gagal mengirim ulasan: " + err.message);
+    }
+}
+
+// Jalankan fungsi memuat Katalog & Ulasan saat halaman siap
+document.addEventListener('DOMContentLoaded', () => {
+    fetchCatalog();
+    fetchReviews();
+});
